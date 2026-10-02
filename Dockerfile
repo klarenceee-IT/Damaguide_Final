@@ -1,11 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copy any .csproj file in the current folder and restore dependencies
+# Copy project file and restore dependencies
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy all remaining source code and publish
+# Copy all source code and publish release binaries
 COPY . .
 RUN dotnet publish -c Release -o /app/publish
 
@@ -16,4 +16,5 @@ COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
-ENTRYPOINT ["dotnet", "damaguide-api.dll"]
+# Automatically locate and execute the primary project DLL file
+CMD ["sh", "-c", "dotnet $(ls *.dll | grep -i -v 'Microsoft\\|System\\|Swashbuckle' | head -n 1)"]
