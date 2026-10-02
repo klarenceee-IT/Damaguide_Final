@@ -1,0 +1,15 @@
+## Ignore build outputs and temporary folders
+bin/
+obj/
+out/
+
+## Ignore User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore IDE and Environment configurations
+.vscode/
+.idea/
+*.env
+appsettings.Development.json
